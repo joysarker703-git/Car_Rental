@@ -8,6 +8,11 @@ const CarDetails = () => {
   const {id} =useParams()
   const navigate= useNavigate()
   const [car,setCar]=useState(null)
+  const currency =import.meta.env.VITE_CURRENCY
+
+  const handleSubmit=async (e) => {
+    e.preventDefault();
+  }
 
   useEffect(() => {
     setCar(dummyCarData.find(car => car._id === id))
@@ -20,7 +25,7 @@ const CarDetails = () => {
           <img src={assets.arrow_icon} alt="" className='rotate-180 opacity-65'/>
           Back to all cars
         </button>
-        <div className=' grid grid-cols-1 1g:grid-cols-3 gap-8 lg:gap-12'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12'>
           {/*Left CAR image & details */}
           <div className='lg:col-span-2'>
               <img src={car.image} alt="" className='w-full h-auto md:max-h-100 object-cover rounded-xl mb-6 shadow-md' />
@@ -63,12 +68,31 @@ const CarDetails = () => {
                                 </li>
                             ))}
                           </ul>
-                  </div>    
-
-
+                </div>    
               </div>
           </div>
 
+          {/* Right side - Booking Form */}
+          <div className='lg:col-span-1'>
+              <form onSubmit={handleSubmit} className='shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500 bg-white'>
+                  <p className='flex items-center justify-between text-2xl text-gray-800 font-semibold'>
+                      {currency}{car.pricePerDay} <span className='text-base text-gray-500 font-normal'>per day</span>
+                  </p>
+                  <hr className='border-borderColor my-6'/>
+                  <div>
+                    <label htmlFor="pickup-date" className='block mb-2'>Pickup Date</label>
+                            <input type="date" className='w-full border border-borderColor px-3 py-2 rounded-lg' required id='pickup-date' min={new Date().toISOString().split('T')[0]}/>
+                  </div>
+                  <div>
+                    <label htmlFor="return-date" className='block mb-2'>Return Date</label>
+                            <input type="date" className='w-full border border-borderColor px-3 py-2 rounded-lg' required id='return-date' />
+                  </div>
+                  <button className='w-full bg-primary hover:bg-primart-dull transition-all py-2 font-medium text-white rounded-xl cursor-pointer'>
+                     Book Now
+                  </button>
+                  <p className='text-center text-sm'> NO credit card required to reserve</p>
+              </form>
+          </div>
         </div>
 
     </div>
